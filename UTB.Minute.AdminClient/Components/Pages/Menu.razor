@@ -1,0 +1,137 @@
+@page "/menu"
+@using UTB.Minute.Contracts
+@inject IHttpClientFactory ClientFactory
+@rendermode InteractiveServer
+
+<PageTitle>Menu Management</PageTitle>
+
+<div class="container mt-4">
+    <h2 class="mb-4">📅 Menu Management</h2>
+
+    <div class="card mb-4 p-3 bg-light">
+        <h4>Add to Menu</h4>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" @bind="newMenu.Date" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Food</label>
+                <select class="form-select" @bind="newMenu.FoodId">
+                    <option value="0">-- Select Food --</option>
+                    @if (availableFoods != null)
+                    {
+                        @foreach (var food in availableFoods.Where(f => f.IsActive))
+                        {
+                            <option value="@food.Id">@food.Name (@food.Price CZK)</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Portions</label>
+                <input type="number" class="form-control" @bind="newMenu.AvailablePortions" min="1" />
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100" @onclick="CreateMenuItem">Add</button>
+            </div>
+        </div>
+    </div>
+
+    @if (menuItems == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else if (!menuItems.Any())
+    {
+        <div class="alert alert-info">The menu is empty. Add some food to specific dates!</div>
+    }
+    else
+    {
+        <table class="table table-hover shadow-sm rounded">
+            <thead class="table-dark">
+                <tr>
+                    <th>Date</th>
+                    <th>Food</th>
+                    <th>Portions Left</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in menuItems.OrderBy(m => m.Date))
+                {
+                    <tr>
+                        <td><strong>@item.Date.ToShortDateString()</strong></td>
+                        <td>@item.Food.Name</td>
+                        <td>
+                            <span class="badge @(item.AvailablePortions > 0 ? "bg-success" : "bg-danger")">
+                                @item.AvailablePortions
+                            </span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-danger" @onclick="() => DeleteMenuItem(item.Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private MenuItemDto[]? menuItems;
+    private FoodDto[]? availableFoods;
+
+    // Снова используем паттерн черновой формы для обхода ошибки CS8852
+    private class MenuFormModel
+    {
+        public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public int FoodId { get; set; }
+        public int AvailablePortions { get; set; } = 20;
+    }
+
+    private MenuFormModel newMenu = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        using var client = ClientFactory.CreateClient("api");
+        // Загружаем и меню, и список доступной еды для выпадающего списка
+        menuItems = await client.GetFromJsonAsync<MenuItemDto[]>("/menu");
+        availableFoods = await client.GetFromJsonAsync<FoodDto[]>("/foods");
+    }
+
+    private async Task CreateMenuItem()
+    {
+        if (newMenu.FoodId == 0 || newMenu.AvailablePortions <= 0) return;
+
+        using var client = ClientFactory.CreateClient("api");
+        
+        var dto = new CreateMenuItemDto(newMenu.Date, newMenu.FoodId, newMenu.AvailablePortions);
+        var response = await client.PostAsJsonAsync("/menu", dto);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            // Сбрасываем форму, но дату оставляем, вдруг повар хочет добавить еще одно блюдо на этот же день
+            newMenu.FoodId = 0;
+            newMenu.AvailablePortions = 20;
+            await LoadData();
+        }
+    }
+
+    private async Task DeleteMenuItem(int id)
+    {
+        using var client = ClientFactory.CreateClient("api");
+        var response = await client.DeleteAsync($"/menu/{id}");
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadData();
+        }
+    }
+}

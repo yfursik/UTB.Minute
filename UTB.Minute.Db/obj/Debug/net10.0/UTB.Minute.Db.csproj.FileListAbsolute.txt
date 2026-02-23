@@ -1,0 +1,15 @@
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\bin\Debug\net10.0\UTB.Minute.Db.deps.json
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\bin\Debug\net10.0\UTB.Minute.Db.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\bin\Debug\net10.0\UTB.Minute.Db.pdb
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\bin\Debug\net10.0\UTB.Minute.Contracts.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\bin\Debug\net10.0\UTB.Minute.Contracts.pdb
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.csproj.AssemblyReference.cache
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.GeneratedMSBuildEditorConfig.editorconfig
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.AssemblyInfoInputs.cache
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.AssemblyInfo.cs
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.csproj.CoreCompileInputs.cache
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minu.615562DB.Up2Date
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\refint\UTB.Minute.Db.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\UTB.Minute.Db.pdb
+D:\programatorstvo\rider\rider_project\UTB.Minute.Db\obj\Debug\net10.0\ref\UTB.Minute.Db.dll

@@ -1,0 +1,110 @@
+﻿@page "/"
+@using UTB.Minute.Contracts
+@inject IHttpClientFactory ClientFactory
+@rendermode InteractiveServer
+
+<PageTitle>Student Menu</PageTitle>
+
+<div class="container mt-4">
+    <h2 class="mb-4">🍽️ Today's Menu</h2>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> @successMessage
+            <button type="button" class="btn-close" @onclick="() => successMessage = null"></button>
+        </div>
+    }
+
+    @if (menuItems == null)
+    {
+        <div class="spinner-border text-primary" role="status"></div>
+    }
+    else if (!menuItems.Any())
+    {
+        <div class="alert alert-info">The menu is empty for today.</div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            @foreach (var item in menuItems.OrderBy(m => m.Date))
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Food.Name</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@item.Date.ToShortDateString()</h6>
+                            <p class="card-text">@item.Food.Description</p>
+                            <p class="card-text">
+                                <strong>Price: </strong> @item.Food.Price CZK <br />
+                                <strong>Portions Left: </strong> 
+                                <span class="badge @(item.AvailablePortions > 0 ? "bg-success" : "bg-danger")">
+                                    @item.AvailablePortions
+                                </span>
+                            </p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <button class="btn btn-primary w-100" 
+                                    disabled="@(item.AvailablePortions <= 0)"
+                                    @onclick="() => PlaceOrder(item.Id)">
+                                @(item.AvailablePortions > 0 ? "Order Now" : "Sold Out")
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private MenuItemDto[]? menuItems;
+    private string? errorMessage;
+    private string? successMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMenu();
+    }
+
+    private async Task LoadMenu()
+    {
+        using var client = ClientFactory.CreateClient("api");
+        // Скачиваем меню (по-хорошему тут нужно фильтровать по дате, но для прототипа берем всё)
+        menuItems = await client.GetFromJsonAsync<MenuItemDto[]>("/menu");
+    }
+
+    private async Task PlaceOrder(int menuItemId)
+    {
+        errorMessage = null;
+        successMessage = null;
+        using var client = ClientFactory.CreateClient("api");
+        
+        var dto = new CreateOrderDto(menuItemId);
+        var response = await client.PostAsJsonAsync("/orders", dto);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            successMessage = "Your order has been placed successfully!";
+            await LoadMenu(); // Обновляем количество порций
+        }
+        else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
+            // Та самая проверка конкурентности (если кто-то забрал последнюю порцию)
+            errorMessage = await response.Content.ReadAsStringAsync();
+            await LoadMenu();
+        }
+        else
+        {
+            errorMessage = "Failed to place order. It might be sold out.";
+        }
+    }
+}

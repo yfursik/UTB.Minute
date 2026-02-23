@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "8ZCBAoTBujE=",
+  "success": true,
+  "projectFilePath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.CanteenClient\\UTB.Minute.CanteenClient.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\egorf\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.3\\microsoft.aspnetcore.app.internal.assets.10.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

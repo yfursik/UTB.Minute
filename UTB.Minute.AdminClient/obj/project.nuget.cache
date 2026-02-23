@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "a/g+F0TmILs=",
+  "success": true,
+  "projectFilePath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.AdminClient\\UTB.Minute.AdminClient.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\egorf\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.3\\microsoft.aspnetcore.app.internal.assets.10.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

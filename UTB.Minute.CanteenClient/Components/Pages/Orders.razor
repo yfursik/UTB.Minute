@@ -1,0 +1,88 @@
+@page "/orders"
+@using UTB.Minute.Contracts
+@inject IHttpClientFactory ClientFactory
+@rendermode InteractiveServer
+
+<PageTitle>Kitchen Orders</PageTitle>
+
+<div class="container mt-4">
+    <h2 class="mb-4">👨‍🍳 Kitchen Dashboard</h2>
+
+    @if (orders == null)
+    {
+        <div class="spinner-border text-primary" role="status"></div>
+    }
+    else if (!orders.Any())
+    {
+        <div class="alert alert-success">No active orders! Time for a coffee break. ☕</div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            @foreach (var order in orders.OrderBy(o => o.CreatedAt))
+            {
+                <div class="col">
+                    <div class="card shadow-sm border-@(GetStatusColor(order.Status))">
+                        <div class="card-header bg-@(GetStatusColor(order.Status)) text-white d-flex justify-content-between">
+                            <strong>Order #@order.Id</strong>
+                            <span>@order.Status</span>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@order.MenuItem.Food.Name</h5>
+                            <p class="card-text text-muted">Ordered at: @order.CreatedAt.ToLocalTime().ToString("t")</p>
+                            
+                            <div class="d-flex gap-2 mt-3">
+                                @if (order.Status == OrderStatus.Preparing)
+                                {
+                                    <button class="btn btn-success flex-grow-1" @onclick="() => UpdateStatus(order.Id, OrderStatus.Ready)">Mark as Ready</button>
+                                    <button class="btn btn-outline-danger" @onclick="() => UpdateStatus(order.Id, OrderStatus.Cancelled)">Cancel</button>
+                                }
+                                else if (order.Status == OrderStatus.Ready)
+                                {
+                                    <button class="btn btn-primary flex-grow-1" @onclick="() => UpdateStatus(order.Id, OrderStatus.Completed)">Handed out (Complete)</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private OrderDto[]? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadOrders();
+    }
+
+    private async Task LoadOrders()
+    {
+        using var client = ClientFactory.CreateClient("api");
+        // Берем только активные заказы из API
+        orders = await client.GetFromJsonAsync<OrderDto[]>("/orders/active");
+    }
+
+    private async Task UpdateStatus(int orderId, OrderStatus newStatus)
+    {
+        using var client = ClientFactory.CreateClient("api");
+        var dto = new UpdateOrderStatusDto(newStatus);
+        
+        var response = await client.PutAsJsonAsync($"/orders/{orderId}/status", dto);
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadOrders(); // Перезагружаем список после смены статуса
+        }
+    }
+
+    // Вспомогательный метод для цвета карточек
+    private string GetStatusColor(OrderStatus status) => status switch
+    {
+        OrderStatus.Preparing => "warning text-dark",
+        OrderStatus.Ready => "success",
+        OrderStatus.Cancelled => "danger",
+        _ => "secondary"
+    };
+}

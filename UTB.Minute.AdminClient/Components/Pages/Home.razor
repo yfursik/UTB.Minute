@@ -1,0 +1,121 @@
+﻿@page "/"
+@using UTB.Minute.Contracts
+@inject IHttpClientFactory ClientFactory
+@rendermode InteractiveServer
+
+<PageTitle>Food Management</PageTitle>
+
+<div class="container mt-4">
+    <h2 class="mb-4">🍔 Food Management</h2>
+
+    <div class="card mb-4 p-3 bg-light">
+        <h4>Add New Food</h4>
+        <div class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Name</label>
+                <input class="form-control" @bind="newFood.Name" placeholder="e.g. Smažený sýr" />
+            </div>
+            <div class="col-md-5">
+                <label class="form-label">Description</label>
+                <input class="form-control" @bind="newFood.Description" placeholder="Description..." />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Price (CZK)</label>
+                <input type="number" class="form-control" @bind="newFood.Price" />
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-primary w-100" @onclick="CreateFood">Add</button>
+            </div>
+        </div>
+    </div>
+
+    @if (foods == null)
+    {
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else if (!foods.Any())
+    {
+        <div class="alert alert-warning">No food items found in the database.</div>
+    }
+    else
+    {
+        <table class="table table-hover shadow-sm rounded">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var food in foods)
+                {
+                    <tr>
+                        <td>@food.Id</td>
+                        <td><strong>@food.Name</strong></td>
+                        <td>@food.Description</td>
+                        <td>@food.Price CZK</td>
+                        <td>
+                            @if (food.IsActive)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactive</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private FoodDto[]? foods;
+    
+    // Создаем изменяемую модель специально для ввода текста на сайте
+    private class FoodFormModel
+    {
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public decimal Price { get; set; }
+    }
+    
+    private FoodFormModel newFood = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFoods();
+    }
+
+    private async Task LoadFoods()
+    {
+        using var client = ClientFactory.CreateClient("api");
+        foods = await client.GetFromJsonAsync<FoodDto[]>("/foods");
+    }
+
+    private async Task CreateFood()
+    {
+        if (string.IsNullOrWhiteSpace(newFood.Name) || newFood.Price <= 0) return;
+
+        using var client = ClientFactory.CreateClient("api");
+        
+        // Превращаем нашу черновую форму в строгий DTO для отправки на сервер
+        var dto = new CreateFoodDto(newFood.Name, newFood.Description, newFood.Price);
+        
+        var response = await client.PostAsJsonAsync("/foods", dto);
+        
+        if (response.IsSuccessStatusCode)
+        {
+            // Сбрасываем форму и перезагружаем таблицу
+            newFood = new FoodFormModel();
+            await LoadFoods();
+        }
+    }
+}

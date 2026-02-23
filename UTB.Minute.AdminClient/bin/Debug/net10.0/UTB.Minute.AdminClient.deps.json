@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "UTB.Minute.AdminClient/1.0.0": {
+        "dependencies": {
+          "UTB.Minute.Contracts": "1.0.0"
+        },
+        "runtime": {
+          "UTB.Minute.AdminClient.dll": {}
+        }
+      },
+      "UTB.Minute.Contracts/1.0.0": {
+        "runtime": {
+          "UTB.Minute.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "UTB.Minute.AdminClient/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UTB.Minute.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

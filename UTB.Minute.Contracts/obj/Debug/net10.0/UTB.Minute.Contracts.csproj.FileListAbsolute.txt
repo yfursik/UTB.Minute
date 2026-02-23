@@ -1,0 +1,11 @@
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\bin\Debug\net10.0\UTB.Minute.Contracts.deps.json
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\bin\Debug\net10.0\UTB.Minute.Contracts.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\bin\Debug\net10.0\UTB.Minute.Contracts.pdb
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.AssemblyInfoInputs.cache
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.AssemblyInfo.cs
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.csproj.CoreCompileInputs.cache
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\refint\UTB.Minute.Contracts.dll
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\UTB.Minute.Contracts.pdb
+D:\programatorstvo\rider\rider_project\UTB.Minute.Contracts\obj\Debug\net10.0\ref\UTB.Minute.Contracts.dll
