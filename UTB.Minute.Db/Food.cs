@@ -14,5 +14,5 @@ public class Food
     
     public decimal Price { get; set; }
     
-    public bool IsActive { get; set; } = true; // По ТЗ мы не удаляем еду, а деактивируем
+    public bool IsActive { get; set; } = true;
 }

@@ -12,5 +12,5 @@ public class Order
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
-    public string StudentId { get; set; } = string.Empty; // Сюда потом пойдет ID пользователя из Keycloak
+    public string StudentUsername { get; set; } = string.Empty;
 }

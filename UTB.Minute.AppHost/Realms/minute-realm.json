@@ -1,0 +1,173 @@
+{
+  "id": "minute",
+  "realm": "minute",
+  "displayName": "Minute Canteen",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "roles": {
+    "realm": [
+      { "name": "Admin", "description": "Canteen management - foods and menu" },
+      { "name": "Cook", "description": "Kitchen - view and update orders" },
+      { "name": "Student", "description": "Student - view menu and place orders" }
+    ]
+  },
+  "defaultRoles": [ "Student" ],
+  "clients": [
+    {
+      "clientId": "minute-blazor",
+      "name": "Minute Blazor (Admin + Canteen)",
+      "description": "Blazor Server apps: AdminClient and CanteenClient",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5024/signin-oidc",
+        "https://localhost:5024/signin-oidc",
+        "http://localhost:7249/signin-oidc",
+        "https://localhost:7249/signin-oidc",
+        "http://localhost:5036/signin-oidc",
+        "https://localhost:5036/signin-oidc",
+        "http://localhost:7041/signin-oidc",
+        "https://localhost:7041/signin-oidc",
+        "http://127.0.0.1:5024/signin-oidc",
+        "https://127.0.0.1:5024/signin-oidc",
+        "http://127.0.0.1:5036/signin-oidc",
+        "https://127.0.0.1:5036/signin-oidc"
+      ],
+      "webOrigins": [
+        "http://localhost:5024",
+        "https://localhost:5024",
+        "http://localhost:7249",
+        "https://localhost:7249",
+        "http://localhost:5036",
+        "https://localhost:5036",
+        "http://localhost:7041",
+        "https://localhost:7041",
+        "http://127.0.0.1:5024",
+        "https://127.0.0.1:5024",
+        "http://127.0.0.1:5036",
+        "https://127.0.0.1:5036"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:5024/##https://localhost:5024/##http://localhost:5036/##https://localhost:5036/##https://localhost:7249/##https://localhost:7041/##http://localhost:5024/signout-callback-oidc##https://localhost:5024/signout-callback-oidc##http://localhost:5036/signout-callback-oidc##https://localhost:5036/signout-callback-oidc"
+      },
+      "defaultClientScopes": [ "role_list", "profile", "email", "roles", "minute-roles", "minute:all" ],
+      "optionalClientScopes": []
+    },
+    {
+      "clientId": "Postman",
+      "name": "Postman (API testing)",
+      "enabled": true,
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [ "https://oauth.pstmn.io/v1/callback" ],
+      "webOrigins": [ "https://oauth.pstmn.io" ],
+      "defaultClientScopes": [ "role_list", "profile", "email", "roles", "minute-roles", "minute:all" ],
+      "optionalClientScopes": []
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "profile",
+      "description": "OpenID Connect built-in scope: profile (name, given_name, family_name, preferred_username)",
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "name": "given name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "firstName",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "given_name",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "family name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "lastName",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "family_name",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "preferred username",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-property-mapper",
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "username",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "preferred_username",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "full name",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-full-name-mapper",
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "claim.name": "name",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "minute-roles",
+      "description": "Realm roles as 'role' claim for ASP.NET Core",
+      "protocol": "openid-connect",
+      "protocolMappers": [
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "role",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "name": "minute:all",
+      "description": "Full access scope for API / Postman",
+      "protocol": "openid-connect"
+    }
+  ],
+  "defaultDefaultClientScopes": [ "role_list", "profile", "email", "roles", "minute-roles" ],
+  "defaultOptionalClientScopes": [],
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients"
+}

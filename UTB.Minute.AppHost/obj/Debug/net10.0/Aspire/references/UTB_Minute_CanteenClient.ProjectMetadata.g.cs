@@ -15,7 +15,7 @@ public class UTB_Minute_CanteenClient : global::Aspire.Hosting.IProjectMetadata
     /// <summary>
     /// The path to the UTB_Minute_CanteenClient project.
     /// </summary>
-    public string ProjectPath => """D:\programatorstvo\rider\rider_project\UTB.Minute.CanteenClient\UTB.Minute.CanteenClient.csproj""";
+    public string ProjectPath => """C:\Users\skippy\projxs\uni\minute\UTB.Minute.CanteenClient\UTB.Minute.CanteenClient.csproj""";
 
     /// <summary>
     /// Gets a value indicating whether building the project before running it should be suppressed.

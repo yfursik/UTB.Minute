@@ -1,12 +1,23 @@
 @page "/orders"
 @using UTB.Minute.Contracts
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Cook")]
 @inject IHttpClientFactory ClientFactory
+@implements IDisposable
 @rendermode InteractiveServer
 
 <PageTitle>Kitchen Orders</PageTitle>
 
 <div class="container mt-4">
     <h2 class="mb-4">👨‍🍳 Kitchen Dashboard</h2>
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error!</strong> @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
 
     @if (orders == null)
     {
@@ -30,7 +41,7 @@
                         <div class="card-body">
                             <h5 class="card-title">@order.MenuItem.Food.Name</h5>
                             <p class="card-text text-muted">Ordered at: @order.CreatedAt.ToLocalTime().ToString("t")</p>
-                            
+
                             <div class="d-flex gap-2 mt-3">
                                 @if (order.Status == OrderStatus.Preparing)
                                 {
@@ -40,6 +51,11 @@
                                 else if (order.Status == OrderStatus.Ready)
                                 {
                                     <button class="btn btn-primary flex-grow-1" @onclick="() => UpdateStatus(order.Id, OrderStatus.Completed)">Handed out (Complete)</button>
+                                    <button class="btn btn-outline-danger" @onclick="() => UpdateStatus(order.Id, OrderStatus.Cancelled)">Cancel</button>
+                                }
+                                else if (order.Status == OrderStatus.Cancelled)
+                                {
+                                    <button class="btn btn-secondary flex-grow-1" @onclick="() => UpdateStatus(order.Id, OrderStatus.Completed)">Complete (acknowledge)</button>
                                 }
                             </div>
                         </div>
@@ -52,32 +68,76 @@
 
 @code {
     private OrderDto[]? orders;
+    private string? errorMessage;
+    private CancellationTokenSource? _sseCts;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadOrders();
+        _sseCts = new CancellationTokenSource();
+        _ = SubscribeToOrderEventsAsync(_sseCts.Token);
+    }
+
+    public void Dispose() => _sseCts?.Cancel();
+
+    private async Task SubscribeToOrderEventsAsync(CancellationToken ct)
+    {
+        try
+        {
+            using var client = ClientFactory.CreateClient("api-sse");
+            using var request = new HttpRequestMessage(HttpMethod.Get, "sse/orders");
+            using var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
+            response.EnsureSuccessStatusCode();
+            await using var stream = await response.Content.ReadAsStreamAsync(ct);
+            using var reader = new StreamReader(stream);
+            while (!ct.IsCancellationRequested)
+            {
+                var line = await reader.ReadLineAsync(ct);
+                if (line?.StartsWith("data: ") == true)
+                {
+                    await InvokeAsync(async () =>
+                    {
+                        await LoadOrders();
+                        StateHasChanged();
+                    });
+                }
+            }
+        }
+        catch (OperationCanceledException) { }
     }
 
     private async Task LoadOrders()
     {
-        using var client = ClientFactory.CreateClient("api");
-        // Берем только активные заказы из API
-        orders = await client.GetFromJsonAsync<OrderDto[]>("/orders/active");
+        try
+        {
+            using var client = ClientFactory.CreateClient("api");
+            var response = await client.GetAsync("/orders/active");
+            if (response.IsSuccessStatusCode)
+            {
+                errorMessage = null;
+                orders = await response.Content.ReadFromJsonAsync<OrderDto[]>();
+            }
+            else
+            {
+                errorMessage = "Failed to load orders from server.";
+                orders = [];
+            }
+        }
+        catch (HttpRequestException)
+        {
+            orders = [];
+        }
     }
 
     private async Task UpdateStatus(int orderId, OrderStatus newStatus)
     {
         using var client = ClientFactory.CreateClient("api");
         var dto = new UpdateOrderStatusDto(newStatus);
-        
         var response = await client.PutAsJsonAsync($"/orders/{orderId}/status", dto);
         if (response.IsSuccessStatusCode)
-        {
-            await LoadOrders(); // Перезагружаем список после смены статуса
-        }
+            await LoadOrders();
     }
 
-    // Вспомогательный метод для цвета карточек
     private string GetStatusColor(OrderStatus status) => status switch
     {
         OrderStatus.Preparing => "warning text-dark",

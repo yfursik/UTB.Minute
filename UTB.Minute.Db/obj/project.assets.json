@@ -562,23 +562,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\egorf\\.nuget\\packages\\": {},
+    "C:\\Users\\skippy\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+      "projectUniqueName": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
       "projectName": "UTB.Minute.Db",
-      "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
-      "packagesPath": "C:\\Users\\egorf\\.nuget\\packages\\",
-      "outputPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\obj\\",
+      "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+      "packagesPath": "C:\\Users\\skippy\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\egorf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\skippy\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -593,8 +593,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj": {
-              "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj"
+            "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj": {
+              "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj"
             }
           }
         }

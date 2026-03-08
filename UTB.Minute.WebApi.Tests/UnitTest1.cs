@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using UTB.Minute.Db;
 using Xunit;
 
+// TODO: Implement tests for the WebApi (this is the only thing last to be implemented)
+// (next code is not working as expected)
 namespace UTB.Minute.WebApi.Tests;
 
 public class FoodApiTests : IClassFixture<WebApplicationFactory<Program>>

@@ -8,7 +8,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.Keycloak" Version="13.1.1-preview.1.26105.8" />
+    <PackageReference Include="Aspire.Hosting.Keycloak" Version="13.1.2-preview.1.26125.13" />
     <PackageReference Include="Aspire.Hosting.SqlServer" Version="13.1.1" />
   </ItemGroup>
 
@@ -19,5 +19,9 @@
     <Nullable>enable</Nullable>
     <UserSecretsId>37e05f22-1472-43b6-bd19-8ffdf25d1201</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Realms\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
 </Project>

@@ -1,0 +1,85 @@
+@page "/token"
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IHttpContextAccessor httpContextAccessor
+@inject IJSRuntime JS
+@rendermode InteractiveServer
+
+<PageTitle>Access Token</PageTitle>
+
+<h3 class="mb-4">Access Token</h3>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <AuthorizeView>
+                    <Authorized>
+                        <p class="mb-2">Your current access token is:</p>
+                        @if (isLoading)
+                        {
+                            <div class="text-muted">Loading token...</div>
+                        }
+                        else if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">@errorMessage</div>
+                        }
+                        else if (!string.IsNullOrEmpty(currentToken))
+                        {
+                            <div class="mb-2 d-flex align-items-center">
+                                <button class="btn btn-outline-secondary btn-sm me-2" @onclick="CopyToken" title="Copy to clipboard">
+                                    <span class="bi bi-clipboard" aria-hidden="true"></span> Copy
+                                </button>
+                                <span class="text-muted small">Token length: @currentToken.Length</span>
+                            </div>
+                            <div style="max-height: 300px; overflow-y: auto; background: #f8f9fa; border-radius: 6px; border: 1px solid #dee2e6;">
+                                <pre class="m-0 p-2" style="white-space: pre-wrap; word-break: break-all; font-size: 0.95rem;">@currentToken</pre>
+                            </div>
+                        }
+                    </Authorized>
+                    <NotAuthorized>
+                        <p><strong>Please <a href="authentication/login">log in</a> to view your access token.</strong></p>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string currentToken = string.Empty;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        isLoading = true;
+        errorMessage = null;
+        try
+        {
+            var httpContext = httpContextAccessor.HttpContext
+                ?? throw new InvalidOperationException("No HttpContext available from the IHttpContextAccessor.");
+
+            var accessToken = await httpContext.GetTokenAsync("access_token");
+
+            if (!string.IsNullOrWhiteSpace(accessToken))
+                currentToken = accessToken;
+            else
+                errorMessage = "No access token found.";
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task CopyToken()
+    {
+        if (!string.IsNullOrEmpty(currentToken))
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", currentToken);
+    }
+}

@@ -9,14 +9,14 @@
       "UTB.Minute.AppHost/1.0.0": {
         "dependencies": {
           "Aspire.Hosting.AppHost": "13.1.1",
-          "Aspire.Hosting.Keycloak": "13.1.1-preview.1.26105.8",
+          "Aspire.Hosting.Keycloak": "13.1.2-preview.1.26125.13",
           "Aspire.Hosting.SqlServer": "13.1.1"
         },
         "runtime": {
           "UTB.Minute.AppHost.dll": {}
         }
       },
-      "Aspire.Hosting/13.1.1": {
+      "Aspire.Hosting/13.1.2": {
         "dependencies": {
           "AspNetCore.HealthChecks.Uris": "9.0.0",
           "Google.Protobuf": "3.33.0",
@@ -33,8 +33,8 @@
         },
         "runtime": {
           "lib/net8.0/Aspire.Hosting.dll": {
-            "assemblyVersion": "13.1.1.0",
-            "fileVersion": "13.100.126.10508"
+            "assemblyVersion": "13.1.2.0",
+            "fileVersion": "13.100.226.12513"
           }
         },
         "resources": {
@@ -82,7 +82,7 @@
       "Aspire.Hosting.AppHost/13.1.1": {
         "dependencies": {
           "AspNetCore.HealthChecks.Uris": "9.0.0",
-          "Aspire.Hosting": "13.1.1",
+          "Aspire.Hosting": "13.1.2",
           "Google.Protobuf": "3.33.0",
           "Grpc.AspNetCore": "2.71.0",
           "Grpc.Net.ClientFactory": "2.71.0",
@@ -102,10 +102,10 @@
           }
         }
       },
-      "Aspire.Hosting.Keycloak/13.1.1-preview.1.26105.8": {
+      "Aspire.Hosting.Keycloak/13.1.2-preview.1.26125.13": {
         "dependencies": {
           "AspNetCore.HealthChecks.Uris": "9.0.0",
-          "Aspire.Hosting": "13.1.1",
+          "Aspire.Hosting": "13.1.2",
           "Google.Protobuf": "3.33.0",
           "Grpc.AspNetCore": "2.71.0",
           "Grpc.Net.ClientFactory": "2.71.0",
@@ -120,8 +120,8 @@
         },
         "runtime": {
           "lib/net8.0/Aspire.Hosting.Keycloak.dll": {
-            "assemblyVersion": "13.1.1.0",
-            "fileVersion": "13.100.126.10508"
+            "assemblyVersion": "13.1.2.0",
+            "fileVersion": "13.100.226.12513"
           }
         }
       },
@@ -129,7 +129,7 @@
         "dependencies": {
           "AspNetCore.HealthChecks.SqlServer": "9.0.0",
           "AspNetCore.HealthChecks.Uris": "9.0.0",
-          "Aspire.Hosting": "13.1.1",
+          "Aspire.Hosting": "13.1.2",
           "Azure.Core": "1.50.0",
           "Azure.Identity": "1.17.1",
           "Google.Protobuf": "3.33.0",
@@ -832,12 +832,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Aspire.Hosting/13.1.1": {
+    "Aspire.Hosting/13.1.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-sd/R5Bwgr6Npmso/pdx5nUaQcJsFCPghh0R/jRO4Em4PjUQUL3UvJbufauTSnDO+NGA0+108GCxJhmH7iEDv4A==",
-      "path": "aspire.hosting/13.1.1",
-      "hashPath": "aspire.hosting.13.1.1.nupkg.sha512"
+      "sha512": "sha512-q7TOaDHqR8eFsEUaGuA9Xm3aDOZioxYXu0Dx1AfmfXbR0aPjvCiRDv/ebaq7eR18L6bm+az6NqZdNczi5BPu9Q==",
+      "path": "aspire.hosting/13.1.2",
+      "hashPath": "aspire.hosting.13.1.2.nupkg.sha512"
     },
     "Aspire.Hosting.AppHost/13.1.1": {
       "type": "package",
@@ -846,12 +846,12 @@
       "path": "aspire.hosting.apphost/13.1.1",
       "hashPath": "aspire.hosting.apphost.13.1.1.nupkg.sha512"
     },
-    "Aspire.Hosting.Keycloak/13.1.1-preview.1.26105.8": {
+    "Aspire.Hosting.Keycloak/13.1.2-preview.1.26125.13": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-AaIfD89tlFFTYFX5vBPue6Jxx6LPIZhNpLKHQRheyIN2KLU/kY4Yd829yqku2MOxiVKcUi+yud0nOSK7YUvq1Q==",
-      "path": "aspire.hosting.keycloak/13.1.1-preview.1.26105.8",
-      "hashPath": "aspire.hosting.keycloak.13.1.1-preview.1.26105.8.nupkg.sha512"
+      "sha512": "sha512-ZBXJfwvJH6WfLHROz0s+cPKTHHFM3QmcDEhCJmJn52+mgxnbp2IMLwHtGpPolJ8mE3LOenBPti3haW2j+t++MQ==",
+      "path": "aspire.hosting.keycloak/13.1.2-preview.1.26125.13",
+      "hashPath": "aspire.hosting.keycloak.13.1.2-preview.1.26125.13.nupkg.sha512"
     },
     "Aspire.Hosting.SqlServer/13.1.1": {
       "type": "package",

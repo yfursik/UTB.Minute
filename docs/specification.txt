@@ -1,0 +1,148 @@
+Objednávací systém v menze
+Semestrální projekt do předmětu Aplikační frameworky.
+
+Cílem projektu je návrh a implementace objednávacího systému pro menzu s využitím nástrojů a frameworků .NET Aspire, Minimal WebAPI, Entity Framework Core a Blazor.
+
+🧠 Zadání projektu
+Objednávací systém pro menzu umožňuje objednávání minutek (jídel připravovaných na objednávku). Student si objedná jídlo ve webové aplikaci běžící na dotykovém panelu. Kuchařky následně jídlo připravují a mění stav objednávky ve své webové aplikaci. Student je o stavu objednávky informován v reálném čase.
+
+Funkční požadavky
+Vedení menzy
+Jídla
+Zobrazuje seznam jídel (popis, cena).
+Vytváří nová jídla.
+Upravuje jídla. Jídlo se neodstraňuje, pouze se označí jako neaktivní.
+Menu
+Zobrazuje položky menu (datum, jídlo, počet dostupných porcí) pro všechny dny.
+Vytváří nové položky menu.
+Upravuje položky menu.
+Odstraňuje položky menu.
+Kuchařka v menze
+Objednávky
+Zobrazuje seznam objednávek, které nejsou dokončené.
+Mění stav objednávky na:
+hotová,
+zrušená,
+dokončená (vydaná studentovi nebo student informován o zrušení).
+Student
+Objednávky
+Zobrazuje menu pro aktuální den (vyprodaná jídla jsou vizuálně odlišena).
+Objednává jídlo z aktuálního menu (sníží se počet dostupných porcí).
+Stavy objednávky
+Připravuje se (sníží počet porcí)
+Hotová (připraveno k vyzvednutí)
+Zrušená (zrušená objednávka nevrací porci zpět)
+Dokončená
+Nefunkční požadavky
+Díky použití nástrojů Aspire musí být vyučující schopen spustit celý projekt lokálně včetně databáze a Keycloak.
+
+Požadavky na řešení
+.NET 10
+Jazyk použitý ve zdrojovém kódu bude angličtina.
+Projekt využívá Aspire:
+Vytváří databázi (např. SQL Server).
+Používá Identity nástroj Keycloak k zabezpečení aplikace.
+Využívá Service Discovery, bez pevně zadaných IP adres.
+Obsahuje Http Command pro reset databáze (smazání, vytvoření, seed testovacích dat).
+Projekt používá Entity framework pro práci s databází.
+Projekt používá Minimal Web API s TypedResults.
+Projekt používá DTO (Data Transfer Objects) nezávislé na entitách.
+Kód se neopakuje (DTO jsou definována pouze na jednom místě).
+Projekt využívá Server-Sent Events (SSE) pro serverem iniciované notifikace o změnách v objednávkách studentů a pro kuchařku. SSE o změnách objednávek se broadcastují všem bez zabezpečení.
+Klientské aplikace volají Minimal Web API pomocí HTTP protokolu a nepřistupují přímo k databázi a entitám.
+Testy budou využívat "produkční" databázi, například SQL Server a ne InMemory EF. Testy musí běžet automaticky bez manuálního zásahu (pomocí databáze spuštěné přes Aspire).
+📂 Struktura řešení
+V solution budou následující projekty:
+
+UTB.Minute.AppHost - Aspire Integrace.
+UTB.Minute.Db – entity a DbContext.
+UTB.Minute.DbManager – WebAPI pro Http Command, reset a seed databáze (reference na UTB.Minute.Db).
+UTB.Minute.Contracts – DTO (Data Transfer Objects).
+UTB.Minute.WebApi – společné WebAPI pro všechny klienty včetně Server-Sent Events (SSE) notifikací (reference na UTB.Minute.Db a UTB.Minute.Contracts).
+UTB.Minute.WebApi.Tests - test WebAPI využívající použitou databázi, například SQL Server (reference na UTB.Minute.WebApi).
+UTB.Minute.AdminClient – Blazor Server aplikace pro vedení menzy (reference na UTB.Minute.Contracts). Volá WebAPI pomocí protokolu HTTP.
+UTB.Minute.CanteenClient – Blazor Server aplikace pro zjednodušení pro studenty a kuchařky (nutno zabezpečit přístup). Pro kuchařky a studenty je možné i vytvořit nezávislé projekty (reference na UTB.Minute.Contracts). Volá WebAPI pomocí protokolu HTTP.
+📝 Checklist a hodnocení
+Tento checklist slouží:
+
+studentům jako kontrolní seznam před odevzdáním
+vyučujícím jako jednotná hodnoticí kritéria
+Warning
+
+Důležité pravidlo Pokud se odevzdaný projekt nedá sestavit nebo spustit, není v angličtině nebo není vytvořen v .NET 10
+bude hodnocen 0 body (a to bez ohledu na míru implementované funkcionality).
+
+📤 Půlsemestrální odevzdání (20 bodů)
+Studenti odevzdávají pouze backend a WebAPI
+(bez klientských aplikací a bez SSE)
+
+Projekty a struktura řešení (0–3 body)
+ Všechny požadované projekty existují a jsou správně pojmenované (2 body)
+(UTB.Minute.Db, DbManager, Contracts, WebApi, WebApi.Tests)
+ Správné reference mezi projekty (1 bod)
+Datový model a DTO (0–5 bodů)
+ Entity a jejich vazby odpovídají zadání (1 bod)
+ Správně navržený DbContext (1 bod)
+ Stav objednávky řešen enumem (1 bod)
+ DTO jsou definována pouze v UTB.Minute.Contracts (1 bod)
+ WebAPI nevrací entity přímo (1 bod)
+Funkčnost WebAPI a jeho testy (0–6 bodů)
+Jídla (0–2 body)
+ Vytvoření a čtení jídel a jejich testy (1 bod)
+ Úprava jídla + deaktivace a jejich testy (1 bod)
+Menu (0–2 body)
+ Vytvoření a čtení položek menu a jejich testy (1 bod)
+ Úprava a smazání položek menu a jejich testy (1 bod)
+Objednávky (0–2 body)
+ Vytvoření a čtení objednávek a jejich testy (1 bod)
+ Změna stavu objednávky a jeho test (1 bod)
+Aspire integrace (0–4 body)
+ Databáze vytvořena a konfigurována přes Aspire (1 bod)
+ Http Command pro reset databáze (1 bod)
+ Seed testovacích dat funguje (1 bod)
+ Service Discovery bez pevných adres (1 bod)
+Testy a dokumentace (0–2 body)
+ Stručná dokumentace projektu (README.md) (2 body)
+Srážkové body (záporné)
+ Bugy, warningy (-1 bod za každý)
+ Nedodržení jmenných konvencí (-2 body)
+✅ Součet: 20 bodů
+
+🏁 Semestrální odevzdání (40 bodů)
+Studenti odevzdávají kompletní funkční systém
+(backend + klienti + SSE + zabezpečení)
+
+Projekty a integrace (0–6 bodů)
+ AdminClient a CanteenClient napojené na WebAPI (3 body)
+ Backend plně funkční a použitý oběma klienty (3 body)
+Student – funkcionalita klienta (0–10 bodů)
+ Zobrazení menu pro aktuální den (2 body)
+ Zobrazení seznamu objednávek (2 bod)
+ Objednání jídla + snížení počtu porcí (2 body)
+ Vyprodaná jídla vizuálně odlišena (2 body)
+ Řešena souběžnost při objednávání poslední porce na úrovni databáze nebo transakce (např. optimistic concurrency, RowVersion) (2 body)
+Kuchařka – funkcionalita klienta (0–6 bodů)
+ Zobrazení nedokončených objednávek (2 body)
+ Změna stavu objednávky (hotová / zrušená / dokončená) (2 body)
+ Neplatné přechody objednávek jsou blokovány (např. nelze přejít ze 'Zrušeno' na 'Hotovo') (2 body)
+Vedení menzy – funkcionalita klienta (0–5 bodů)
+Jídla (0–3 body)
+ Vytváření jídel (1 bod)
+ Úprava jídel (1 bod)
+ Deaktivace jídla (1 bod)
+Menu (0–2 body)
+ Vytváření položek menu (1 bod)
+ Úprava položek menu (1 bod)
+SSE notifikace (0–5 bodů)
+ Funkční SSE endpoint (2 body)
+ Notifikace pro studenta i kuchařku (2 body)
+ Automatická aktualizace UI (1 bod)
+Autentizace a autorizace (0–6 bodů)
+ Keycloak spuštěn přes Aspire (2 body)
+ Backend zabezpečen podle rolí (2 body)
+ UI reaguje na roli uživatele (2 body)
+Dokumentace (0–2 body)
+ Aktualizovaná dokumentace k finálnímu řešení (2 body)
+Srážkové body (záporné)
+ Bugy, warningy (-1 bod za každý)
+ Nedodržení jmenných konvencí (-2 body)

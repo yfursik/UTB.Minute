@@ -1,10 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "8ZCBAoTBujE=",
+  "dgSpecHash": "Iy9nublWYC8=",
   "success": true,
-  "projectFilePath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.CanteenClient\\UTB.Minute.CanteenClient.csproj",
+  "projectFilePath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.CanteenClient\\UTB.Minute.CanteenClient.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\egorf\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.3\\microsoft.aspnetcore.app.internal.assets.10.0.3.nupkg.sha512"
+    "C:\\Users\\skippy\\.nuget\\packages\\aspire.keycloak.authentication\\13.1.2-preview.1.26125.13\\aspire.keycloak.authentication.13.1.2-preview.1.26125.13.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.3\\microsoft.aspnetcore.app.internal.assets.10.0.3.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.1\\microsoft.aspnetcore.authentication.jwtbearer.10.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.aspnetcore.authentication.openidconnect\\10.0.1\\microsoft.aspnetcore.authentication.openidconnect.10.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.0.1\\microsoft.identitymodel.abstractions.8.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.0.1\\microsoft.identitymodel.jsonwebtokens.8.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.identitymodel.logging\\8.0.1\\microsoft.identitymodel.logging.8.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.identitymodel.protocols\\8.0.1\\microsoft.identitymodel.protocols.8.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\8.0.1\\microsoft.identitymodel.protocols.openidconnect.8.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
+    "C:\\Users\\skippy\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512"
   ],
   "logs": []
 }

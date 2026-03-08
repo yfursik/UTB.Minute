@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj": {}
+    "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj": {}
   },
   "projects": {
-    "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj": {
+    "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
+        "projectUniqueName": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
         "projectName": "UTB.Minute.Contracts",
-        "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
-        "packagesPath": "C:\\Users\\egorf\\.nuget\\packages\\",
-        "outputPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\obj\\",
+        "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj",
+        "packagesPath": "C:\\Users\\skippy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\egorf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\skippy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -343,20 +343,20 @@
         }
       }
     },
-    "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj": {
+    "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
+        "projectUniqueName": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
         "projectName": "UTB.Minute.DbManager",
-        "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
-        "packagesPath": "C:\\Users\\egorf\\.nuget\\packages\\",
-        "outputPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.DbManager\\obj\\",
+        "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.DbManager\\UTB.Minute.DbManager.csproj",
+        "packagesPath": "C:\\Users\\skippy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.DbManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\egorf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\skippy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -371,8 +371,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj": {
-                "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj"
+              "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj": {
+                "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj"
               }
             }
           }
@@ -393,10 +393,6 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
-            "Microsoft.AspNetCore.OpenApi": {
-              "target": "Package",
-              "version": "[10.0.3, )"
-            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[10.0.3, )"
@@ -839,20 +835,20 @@
         }
       }
     },
-    "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj": {
+    "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+        "projectUniqueName": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
         "projectName": "UTB.Minute.Db",
-        "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
-        "packagesPath": "C:\\Users\\egorf\\.nuget\\packages\\",
-        "outputPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Db\\obj\\",
+        "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\UTB.Minute.Db.csproj",
+        "packagesPath": "C:\\Users\\skippy\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Db\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\egorf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\skippy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -867,8 +863,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj": {
-                "projectPath": "D:\\programatorstvo\\rider\\rider_project\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj"
+              "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj": {
+                "projectPath": "C:\\Users\\skippy\\projxs\\uni\\minute\\UTB.Minute.Contracts\\UTB.Minute.Contracts.csproj"
               }
             }
           }

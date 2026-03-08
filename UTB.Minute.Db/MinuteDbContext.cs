@@ -7,4 +7,12 @@ public class MinuteDbContext(DbContextOptions<MinuteDbContext> options) : DbCont
     public DbSet<Food> Foods => Set<Food>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<Order> Orders => Set<Order>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Food>(e =>
+        {
+            e.Property(x => x.Price).HasPrecision(18, 2);
+        });
+    }
 }

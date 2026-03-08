@@ -1,5 +1,7 @@
-﻿@page "/"
+@page "/"
 @using UTB.Minute.Contracts
+@using Microsoft.AspNetCore.Authorization;
+@attribute [Authorize(Roles = "Admin")]
 @inject IHttpClientFactory ClientFactory
 @rendermode InteractiveServer
 
@@ -13,7 +15,7 @@
         <div class="row g-3 align-items-end">
             <div class="col-md-4">
                 <label class="form-label">Name</label>
-                <input class="form-control" @bind="newFood.Name" placeholder="e.g. Smažený sýr" />
+                <input class="form-control" @bind="newFood.Name" placeholder="e.g. Fried cheese" />
             </div>
             <div class="col-md-5">
                 <label class="form-label">Description</label>
@@ -29,13 +31,19 @@
         </div>
     </div>
 
+    @if (!string.IsNullOrEmpty(authError))
+    {
+        <div class="alert alert-warning">
+            @authError
+        </div>
+    }
     @if (foods == null)
     {
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     }
-    else if (!foods.Any())
+    else if (!foods.Any() && authError == null)
     {
         <div class="alert alert-warning">No food items found in the database.</div>
     }
@@ -49,6 +57,7 @@
                     <th>Description</th>
                     <th>Price</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +78,17 @@
                                 <span class="badge bg-danger">Inactive</span>
                             }
                         </td>
+                        <td>
+                            @if (food.IsActive)
+                            {
+                                <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => EditFood(food)">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => DeactivateFood(food)">Deactivate</button>
+                            }
+                            else
+                            {
+                                <button class="btn btn-sm btn-outline-success" @onclick="() => ActivateFood(food)">Activate</button>
+                            }
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -76,8 +96,46 @@
     }
 </div>
 
+@if (showEditModal && editingFood != null)
+{
+    <div class="modal show d-block" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Food</h5>
+                    <button type="button" class="btn-close" @onclick="() => showEditModal = false"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" @bind="editName" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Description</label>
+                        <input class="form-control" @bind="editDescription" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Price (CZK)</label>
+                        <input type="number" class="form-control" @bind="editPrice" />
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editActive" @bind="editIsActive" />
+                        <label class="form-check-label" for="editActive">Active</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="() => showEditModal = false">Cancel</button>
+                    <button class="btn btn-primary" @onclick="SaveEdit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop show"></div>
+}
+
 @code {
     private FoodDto[]? foods;
+    private string? authError;
     
     // Создаем изменяемую модель специально для ввода текста на сайте
     private class FoodFormModel
@@ -96,26 +154,89 @@
 
     private async Task LoadFoods()
     {
-        using var client = ClientFactory.CreateClient("api");
-        foods = await client.GetFromJsonAsync<FoodDto[]>("/foods");
+        authError = null;
+        try
+        {
+            using var client = ClientFactory.CreateClient("api");
+            var response = await client.GetAsync("/foods");
+            if (response.IsSuccessStatusCode)
+            {
+                authError = null;
+                foods = await response.Content.ReadFromJsonAsync<FoodDto[]>();
+            }
+            else
+            {
+                authError = "Failed to load foods from server.";
+                foods = [];
+            }
+        }
+        catch (HttpRequestException)
+        {
+            foods = [];
+        }
     }
 
     private async Task CreateFood()
     {
         if (string.IsNullOrWhiteSpace(newFood.Name) || newFood.Price <= 0) return;
-
+        authError = null;
         using var client = ClientFactory.CreateClient("api");
-        
-        // Превращаем нашу черновую форму в строгий DTO для отправки на сервер
         var dto = new CreateFoodDto(newFood.Name, newFood.Description, newFood.Price);
-        
         var response = await client.PostAsJsonAsync("/foods", dto);
-        
         if (response.IsSuccessStatusCode)
         {
-            // Сбрасываем форму и перезагружаем таблицу
             newFood = new FoodFormModel();
             await LoadFoods();
         }
+    }
+
+    private bool showEditModal;
+    private FoodDto? editingFood;
+    private string editName = "", editDescription = "";
+    private decimal editPrice;
+    private bool editIsActive;
+
+    private void EditFood(FoodDto food)
+    {
+        editingFood = food;
+        editName = food.Name;
+        editDescription = food.Description;
+        editPrice = food.Price;
+        editIsActive = food.IsActive;
+        showEditModal = true;
+    }
+
+    private async Task SaveEdit()
+    {
+        if (editingFood == null) return;
+        authError = null;
+        using var client = ClientFactory.CreateClient("api");
+        var dto = new UpdateFoodDto(editName, editDescription, editPrice, editIsActive);
+        var response = await client.PutAsJsonAsync($"/foods/{editingFood.Id}", dto);
+        if (response.IsSuccessStatusCode)
+        {
+            showEditModal = false;
+            await LoadFoods();
+        }
+    }
+
+    private async Task DeactivateFood(FoodDto food)
+    {
+        authError = null;
+        using var client = ClientFactory.CreateClient("api");
+        var dto = new UpdateFoodDto(food.Name, food.Description, food.Price, false);
+        var response = await client.PutAsJsonAsync($"/foods/{food.Id}", dto);
+        if (response.IsSuccessStatusCode)
+            await LoadFoods();
+    }
+
+    private async Task ActivateFood(FoodDto food)
+    {
+        authError = null;
+        using var client = ClientFactory.CreateClient("api");
+        var dto = new UpdateFoodDto(food.Name, food.Description, food.Price, true);
+        var response = await client.PutAsJsonAsync($"/foods/{food.Id}", dto);
+        if (response.IsSuccessStatusCode)
+            await LoadFoods();
     }
 }

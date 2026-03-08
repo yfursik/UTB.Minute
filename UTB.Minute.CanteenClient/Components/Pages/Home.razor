@@ -1,9 +1,13 @@
-﻿@page "/"
+@page "/"
 @using UTB.Minute.Contracts
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Student,Cook")]
 @inject IHttpClientFactory ClientFactory
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthState
 @rendermode InteractiveServer
 
-<PageTitle>Student Menu</PageTitle>
+<PageTitle>Today's Menu</PageTitle>
 
 <div class="container mt-4">
     <h2 class="mb-4">🍽️ Today's Menu</h2>
@@ -37,27 +41,36 @@
         <div class="row row-cols-1 row-cols-md-3 g-4">
             @foreach (var item in menuItems.OrderBy(m => m.Date))
             {
+                var isSoldOut = item.AvailablePortions <= 0;
                 <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
+                    <div class="card h-100 shadow-sm @(isSoldOut ? "opacity-75" : "")" style="@(isSoldOut ? "filter: grayscale(0.7); pointer-events: none;" : "")">
+                        @if (isSoldOut)
+                        {
+                            <div class="position-absolute top-0 start-0 end-0 text-center py-2 bg-dark text-white rounded-top">Sold out</div>
+                        }
+                        <div class="card-body @(isSoldOut ? "pt-5" : "")">
                             <h5 class="card-title">@item.Food.Name</h5>
                             <h6 class="card-subtitle mb-2 text-muted">@item.Date.ToShortDateString()</h6>
                             <p class="card-text">@item.Food.Description</p>
                             <p class="card-text">
                                 <strong>Price: </strong> @item.Food.Price CZK <br />
-                                <strong>Portions Left: </strong> 
-                                <span class="badge @(item.AvailablePortions > 0 ? "bg-success" : "bg-danger")">
+                                <strong>Portions Left: </strong>
+                                <span class="badge @(item.AvailablePortions > 0 ? "bg-success" : "bg-secondary")">
                                     @item.AvailablePortions
                                 </span>
                             </p>
                         </div>
-                        <div class="card-footer bg-white border-top-0">
-                            <button class="btn btn-primary w-100" 
-                                    disabled="@(item.AvailablePortions <= 0)"
-                                    @onclick="() => PlaceOrder(item.Id)">
-                                @(item.AvailablePortions > 0 ? "Order Now" : "Sold Out")
-                            </button>
-                        </div>
+                        <AuthorizeView Roles="Student">
+                            <Authorized>
+                                <div class="card-footer bg-white border-top-0">
+                                    <button class="btn w-100 @(isSoldOut ? "btn-secondary" : "btn-primary")"
+                                            disabled="@isSoldOut"
+                                            @onclick="@(() => { if (!isSoldOut) PlaceOrder(item.Id); })">
+                                        @(isSoldOut ? "Sold out" : "Order Now")
+                                    </button>
+                                </div>
+                            </Authorized>
+                        </AuthorizeView>
                     </div>
                 </div>
             }
@@ -72,14 +85,36 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var auth = await AuthState.GetAuthenticationStateAsync();
+        if (auth.User.IsInRole("Cook"))
+        {
+            Navigation.NavigateTo("/orders", forceLoad: true);
+            return;
+        }
         await LoadMenu();
     }
 
     private async Task LoadMenu()
     {
-        using var client = ClientFactory.CreateClient("api");
-        // Скачиваем меню (по-хорошему тут нужно фильтровать по дате, но для прототипа берем всё)
-        menuItems = await client.GetFromJsonAsync<MenuItemDto[]>("/menu");
+        try
+        {
+            using var client = ClientFactory.CreateClient("api");
+            var response = await client.GetAsync("/menu/today");
+            if (response.IsSuccessStatusCode)
+            {
+                errorMessage = null;
+                menuItems = await response.Content.ReadFromJsonAsync<MenuItemDto[]>();
+            }
+            else
+            {
+                errorMessage = "Failed to load menu from server.";
+                menuItems = [];
+            }
+        }
+        catch (HttpRequestException)
+        {
+            menuItems = [];
+        }
     }
 
     private async Task PlaceOrder(int menuItemId)
@@ -87,18 +122,16 @@
         errorMessage = null;
         successMessage = null;
         using var client = ClientFactory.CreateClient("api");
-        
         var dto = new CreateOrderDto(menuItemId);
         var response = await client.PostAsJsonAsync("/orders", dto);
-        
+
         if (response.IsSuccessStatusCode)
         {
             successMessage = "Your order has been placed successfully!";
-            await LoadMenu(); // Обновляем количество порций
+            await LoadMenu();
         }
         else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
         {
-            // Та самая проверка конкурентности (если кто-то забрал последнюю порцию)
             errorMessage = await response.Content.ReadAsStringAsync();
             await LoadMenu();
         }

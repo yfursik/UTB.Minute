@@ -1,0 +1,14 @@
+# dev-only
+docs-dev/
+*.code-workspace
+
+# build
+bin/
+obj/
+
+# IDE
+.vs/
+# .idea/
+
+# NuGet
+# packages/
