@@ -55,13 +55,15 @@ Při prvním spuštění Aspire vytvoří volume s názvem odvozeným od projekt
 
 ## Keycloak: import na novém zařízení (nový Docker)
 
-1. Nainstalujte Docker Desktop a .NET 10 SDK.
-2. Rozbalte přenesený export do složky (např. `C:\temp\kc-export` na Windows nebo `/tmp/kc-export` na Linuxu).
-3. Vytvořte nové prázdné volume pro Keycloak. Název by měl odpovídat tomu, které Aspire použije pro Keycloak. Po prvním spuštění AppHostu můžete zkontrolovat `docker volume ls` a název sjednotit; pro první import stačí např. `keycloak`:
-   ```bash
+Máte složku **kc-export** se 4 soubory (např. `master-realm.json`, `master-users-0.json`, `minute-realm.json`, `minute-users-0.json`) z Keycloak exportu. Na novém Windows počítači postupujte takto:
+
+1. Nainstalujte **Docker Desktop** a .NET 10 SDK.
+2. Přenesenou složku `kc-export` (nebo její kopii) umístěte na disk, např. `C:\temp\kc-export`. Důležité: uvnitř musí být přímo ty 4 JSON soubory (ne další vnořená složka).
+3. Vytvořte prázdné volume. Název by měl odpovídat tomu, které Aspire použije; pro první import stačí `keycloak`. V PowerShellu:
+   ```powershell
    docker volume create keycloak
    ```
-4. Spusťte nativní import Keycloaku (obrázek 26.4, stejný jako u exportu). Cestu k rozbalenému exportu upravte podle vašeho systému:
+4. Spusťte **Keycloak import** (obrázek 26.4). Cestu upravte, pokud je vaše složka jinde než `C:\temp\kc-export`:
 
    **PowerShell (Windows):**
 
@@ -80,6 +82,16 @@ Při prvním spuštění Aspire vytvoří volume s názvem odvozeným od projekt
      -v "/tmp/kc-export:/opt/keycloak/data/import" \
      -v "keycloak:/opt/keycloak/data" \
      quay.io/keycloak/keycloak:26.4 \
+     import --dir /opt/keycloak/data/import
+   ```
+
+   **Rychlý postup na Windows (kc-export v `C:\temp\kc-export`):**
+   ```powershell
+   docker volume create keycloak
+   docker run --rm `
+     -v "C:\temp\kc-export:/opt/keycloak/data/import" `
+     -v "keycloak:/opt/keycloak/data" `
+     quay.io/keycloak/keycloak:26.4 `
      import --dir /opt/keycloak/data/import
    ```
 
