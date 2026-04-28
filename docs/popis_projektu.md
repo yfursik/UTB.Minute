@@ -77,7 +77,7 @@ Struktura odpovídá zadání. Jeden CanteenClient slouží jak pro studenty, ta
 ## 📝 Poznámky k odevzdání
 
 - **Stav:** Projekt je plně funkční.
-- **Testování:** TODO: Implement tests and write here how they work.
+- **Testování:** Projekt obsahuje 24 integračních testů (xUnit), které pokrývají CRUD operace pro Foods, Menu a Orders, včetně ověření stavů objednávek, sold-out scénářů a zpracování chyb. Testy běží na InMemory databázi s falešnou autentizací místo Keycloaku, kde se role řídí pomocí hlavičky X-Test-Role.
 - **Problémy:** Největší obtíž byla celková konfigurace Keycloaku (realm, klienti, role, integrace s Aspire). Postupně jsme vše vyřešili podle návodu z YouTube kurzu, který vysvětluje Keycloak v kontextu Aspire aplikace a který nám pomohl s nastavením.
 
 ---
