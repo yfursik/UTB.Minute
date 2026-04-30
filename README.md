@@ -6,12 +6,12 @@ Semestrální projekt do předmětu Aplikační frameworky.
 
 ## 👥 Členové týmu a poměr práce
 
-| Jméno             | Role v týmu            | Poměr práce |
-| ----------------- | ---------------------- | ----------- |
-| Egor              | Datový model           | 1           |
-| Artem             | WebAPI & SSE & Backend | 1           |
-| Ruslana           | Blazor klient & UI     | 1           |
-| Vitalik – vedoucí | Testovani              | 1           |
+| Jméno           | Role v týmu            | Poměr práce |
+| --------------- | ---------------------- | ----------- |
+| Egor            | Datový model           | 1           |
+| Artem – vedoucí | WebAPI & SSE & Backend | 1           |
+| Ruslana         | Blazor klient & UI     | 1           |
+| Vitalik         | Testovani              | 1           |
 
 _Poznámka: Poměr práce 1:1:1 značí rovnoměrný přínos všech členů._
 

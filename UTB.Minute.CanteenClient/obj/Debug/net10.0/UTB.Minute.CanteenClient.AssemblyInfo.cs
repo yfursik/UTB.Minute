@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UTB.Minute.CanteenClient")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41929b39a8d6b3449086053e56af9e4092e58642")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2fb204cf92038a763a690a73ba6453d11aaa3f46")]
 [assembly: System.Reflection.AssemblyProductAttribute("UTB.Minute.CanteenClient")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UTB.Minute.CanteenClient")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

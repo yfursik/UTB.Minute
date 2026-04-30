@@ -2,13 +2,34 @@
 docs-dev/
 *.code-workspace
 
-# build
+# Build output
 bin/
 obj/
 
-# IDE
+# IDE – Visual Studio
 .vs/
-# .idea/
+*.suo
+*.user
+
+# IDE – JetBrains Rider
+.idea/
+*.sln.iml
 
 # NuGet
-# packages/
+packages/
+*.nupkg
+project.lock.json
+
+# Aspire dashboard local state
+.aspire/
+
+# Secrets
+.env
+*.env
+appsettings.Local.json
+appsettings.*.Local.json
+secrets.json
+
+# Logs
+*.log
+logs/

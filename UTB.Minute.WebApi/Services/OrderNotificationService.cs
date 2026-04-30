@@ -25,11 +25,15 @@ public class OrderNotificationService : INotifyPropertyChanged
         while (!ct.IsCancellationRequested)
         {
             var tcs = new TaskCompletionSource();
-            PropertyChangedEventHandler handler = (_, _) => tcs.SetResult();
+            PropertyChangedEventHandler handler = (_, _) => tcs.TrySetResult();
             PropertyChanged += handler;
             try
             {
                 await tcs.Task.WaitAsync(ct);
+            }
+            catch (OperationCanceledException)
+            {
+                yield break;
             }
             finally
             {
