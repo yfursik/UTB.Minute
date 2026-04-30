@@ -31,6 +31,15 @@ _Poznámka: Poměr práce 1:1:1 značí rovnoměrný přínos všech členů._
 
 _Poznámka: Keycloak realm a uživatelé se importují automaticky ze souborů `AppHost/Realms/` při každém startu. SQL data se seedují automaticky při startu WebAPI. Ruční import Docker volumes není potřeba._
 
+## 🔑 Testovací účty
+
+| Uživatel | Heslo | Role |
+| -------- | ----- | ---- |
+| admin | admin | Admin |
+| cook | cook | Cook |
+| student1 | student | Student |
+| student2 | student | Student |
+
 ---
 
 ## 📂 Struktura řešení

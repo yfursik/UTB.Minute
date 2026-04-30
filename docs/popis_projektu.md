@@ -33,6 +33,15 @@ _Poznámka: Keycloak realm a uživatelé se importují automaticky ze souborů `
 
 ---
 
+## 🔑 Testovací účty
+
+| Uživatel | Heslo   | Role    |
+| -------- | ------- | ------- |
+| admin    | admin   | Admin   |
+| cook     | cook    | Cook    |
+| student1 | student | Student |
+| student2 | student | Student |
+
 ## 📂 Struktura řešení
 
 Struktura odpovídá zadání. Jeden CanteenClient slouží jak pro studenty, tak pro kuchařky; přístup je rozlišen podle role (Student / Cook) v menu i na API.
